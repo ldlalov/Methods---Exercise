@@ -5,128 +5,315 @@ namespace _11._Array_Manipulator
 {
     internal class Program
     {
-        static int[] array1 = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
 
         static void Main(string[] args)
         {
-            int[] array2 = array1;
+            int[] array1 = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+
             string command = Console.ReadLine();
-            string[] cmd = command.Split().ToArray();
-            if (cmd[0] == "exchange")//ако е Substring(0,8)"exchange", когато дойде вход max odd гърми заради недостатъчно символи
+            while (command != "end")
             {
-                int index = int.Parse(cmd[1]);
-                Exchange(index);
-            }
-            else if (command == "max even")
-            {
-                MaxEven();
-            }
-            else if (command == "max odd")
-            {
-                MaxOdd();
-            }
-            else if (command == "min even")
-            {
-                MinEven();
-            }
-            else if (command == "min odd")
-            {
-                MinOdd();
-            }
-            else if (cmd[0]== "first")
-            {
-                if (cmd[2] == "even")
+                string[] cmd = command.Split().ToArray();
+                if (cmd[0] == "exchange")
                 {
-                    FirstEven(int.Parse(cmd[1]));
+                    int index = int.Parse(cmd[1]);
+                    Exchange(array1, index);
                 }
-            }
-            //Console.WriteLine(string.Join(' ', array1));
-            //string word = Console.ReadLine();  
-
-        }
-        static void Exchange(int index)
-        {
-            if (index <= array1.Length - 1)
-            {
-                int[] array12 = new int[array1.Length - index];
-                int[] array11 = new int[array1.Length - array12.Length];
-                for (int i = 0; i < index; i++)
+                else if (command == "max even")
                 {
-                    array11[i] = array1[i];
+                    MaxEven(array1);
                 }
-                for (int i = index; i < array1.Length; i++)
+                else if (command == "max odd")
                 {
-                    array12[i - index] = array1[i];
+                    MaxOdd(array1);
                 }
-                array1 = array12.Concat(array11).ToArray();
-                Console.WriteLine(string.Join(' ', array1));
-            }
-        }
-        static void MaxEven()
-        {
-            int index = array1[0];
-            for (int i = 0; i < array1.Length; i++)
-            {
-                if (array1[i] % 2 == 0 && i > index)
+                else if (command == "min even")
                 {
-                    index = i;
+                    MinEven(array1);
                 }
-            }
-            Console.WriteLine(index);
-        }
-        static void MaxOdd()
-        {
-            int index = array1[0];
-            for (int i = 0; i < array1.Length; i++)
-            {
-                if (array1[i] % 2 != 0 && i > index)
+                else if (command == "min odd")
                 {
-                    index = i;
+                    MinOdd(array1);
                 }
-            }
-            Console.WriteLine(index);
-        }
-        static void MinEven()
-        {
-            int index = array1[0];
-            for (int i = 0; i < array1.Length; i++)
-            {
-                if (array1[i] % 2 == 0 && i < index)
+                else if (cmd[0] == "first")
                 {
-                    index = i;
-                }
-            }
-            Console.WriteLine(index);
-        }
-        static void MinOdd()
-        {
-            int index = array1[0];
-            for (int i = 0; i < array1.Length; i++)
-            {
-                if (array1[i] % 2 != 0 && i < index)
-                {
-                    index = i;
-                }
-            }
-            Console.WriteLine(index);
-        }
-        static void FirstEven(int count)
-        {
-            int index = array1[0];
-            int [] tempArray = new int[count];
-            for (int i = 0;i < count;i++)
-            {
-                for (int j = 0; j < array1.Length; j++)
-                {
-                    if (array1[i] % 2 == 0 && index<)
+                    if (cmd[2] == "even")
                     {
-
+                        FirstEven(array1, int.Parse(cmd[1]));
+                    }
+                    if (cmd[2] == "odd")
+                    {
+                        FirstOdd(array1, int.Parse(cmd[1]));
                     }
                 }
-                    tempArray[i] = array1[i];
-                
+                else if (cmd[0] == "last")
+                {
+                    if (cmd[2] == "even")
+                    {
+                        LastEven(array1, int.Parse(cmd[1]));
+                    }
+                    if (cmd[2] == "odd")
+                    {
+                        LastOdd(array1, int.Parse(cmd[1]));
+                    }
+                }
+                command = Console.ReadLine();
             }
-            Console.WriteLine(string.Join(",",tempArray));
+            Console.WriteLine($"[{String.Join(", ",array1)}]");
+        }
+        static void Exchange(int[] array1, int index)
+        {
+            int numberOfRotations = index;
+
+            if (numberOfRotations > array1.Length - 1 || numberOfRotations < 0)
+            {
+                Console.WriteLine("Invalid index");
+                return;
+            }
+
+            for (int rotation = 0; rotation <= numberOfRotations; rotation++)
+            {
+                int firstNumber = array1[0];
+
+                for (int i = 1; i < array1.Length; i++)
+                {
+                    array1[i - 1] = array1[i];
+                }
+
+                array1[array1.Length - 1] = firstNumber;
+            }
+        }
+        static void MaxEven(int[] array1)
+        {
+            int index = array1[0];
+            int value = int.MinValue;
+            for (int i = 0; i < array1.Length; i++)
+            {
+                if (array1[i] % 2 == 0 && array1[i] > index)
+                {
+                    value = array1[i];
+                    index = i;
+                }
+            }
+            if (index > int.MinValue)
+            {
+                Console.WriteLine(index);
+            }
+            else
+            {
+                Console.WriteLine("No matches");
+            }
+        }
+        static void MaxOdd(int[] array1)
+        {
+            int index = 0;
+            int value = int.MinValue;
+            for (int i = 0; i < array1.Length; i++)
+            {
+                if (array1[i] % 2 != 0 && array1[i] > value)
+                {
+                    value = array1[i];
+                    index = i;
+                }
+            }
+            if (index > int.MinValue)
+            {
+                Console.WriteLine(index);
+            }
+            else
+            {
+                Console.WriteLine("No matches");
+            }
+        }
+        static void MinEven(int[] array1)
+        {
+            int index = array1[0];
+            int value = int.MaxValue;
+            for (int i = 0; i < array1.Length; i++)
+            {
+                if (array1[i] % 2 == 0 && array1[i] < value)
+                {
+                    value = array1[i];
+                    index = i;
+                }
+            }
+            if (value < int.MaxValue)
+            {
+                Console.WriteLine(index);
+            }
+            else
+            {
+                Console.WriteLine("No matches");
+            }
+        }
+        static void MinOdd(int[] array1)
+        {
+            int index = array1[0];
+            int value = int.MaxValue;
+            for (int i = 0; i < array1.Length; i++)
+            {
+                if (array1[i] % 2 != 0 && array1[i] < value)
+                {
+                    value = array1[i];
+                    index = i;
+                }
+            }
+            if (value < int.MaxValue)
+            {
+                Console.WriteLine(index);
+            }
+            else
+            {
+                Console.WriteLine("No matches");
+            }
+        }
+        static void FirstEven(int[] array1, int count)
+        {
+            if (count < array1.Length)
+            {
+                int index = array1[0];
+                int tempcount = 0;
+                int[] tempArray = new int[count];
+                for (int i = 0; i < array1.Length; i++)
+                {
+                    if (array1[i] % 2 == 0 && tempcount < tempArray.Length)
+                    {
+                        tempArray[tempcount] = array1[i];
+                        tempcount++;
+                    }
+                }
+                int len = 0;
+                for (int i = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                        len++;
+                }
+                int[] newArray = new int[len];
+                for (int i = 0, j = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                    {
+                        newArray[j] = tempArray[i];
+                        j++;
+                    }
+                }
+                    Console.WriteLine($"[{String.Join(", ", newArray)}]");
+            }
+            else
+            {
+                Console.WriteLine("Invalid count");
+            }
+        }
+        static void FirstOdd(int[] array1, int count)
+        {
+            if (count < array1.Length)
+            {
+                int index = array1[0];
+                int tempcount = 0;
+                int[] tempArray = new int[count];
+                for (int i = 0; i < array1.Length; i++)
+                {
+                    if (array1[i] % 2 != 0 && tempcount < tempArray.Length)
+                    {
+                        tempArray[tempcount] = array1[i];
+                        tempcount++;
+                    }
+                }
+                int len = 0;
+                for (int i = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                        len++;
+                }
+                int[] newArray = new int[len];
+                for (int i = 0, j = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                    {
+                        newArray[j] = tempArray[i];
+                        j++;
+                    }
+                }
+                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+            }
+            else
+            {
+                Console.WriteLine("Invalid count");
+            }
+        }
+        static void LastEven(int[] array1, int count)
+        {
+            if (count <= array1.Length)
+            {
+                int index = array1[0];
+                int tempcount = count;
+                int[] tempArray = new int[count];
+                for (int i = array1.Length - 1; i >= 0; i--)
+                {
+                    if (array1[i] % 2 == 0 && tempcount - 1 >= 0)
+                    {
+                        tempArray[tempcount - 1] = array1[i];
+                        tempcount--;
+                    }
+                }
+                int len = 0;
+                for (int i = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                        len++;
+                }
+                int[] newArray = new int[len];
+                for (int i = 0, j = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                    {
+                        newArray[j] = tempArray[i];
+                        j++;
+                    }
+                }
+                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+            }
+            else
+            {
+                Console.WriteLine("Invalid count");
+            }
+        }
+        static void LastOdd(int[] array1, int count)
+        {
+            if (count <= array1.Length)
+            {
+                int index = array1[0];
+                int tempcount = count;
+                int[] tempArray = new int[count];
+                for (int i = array1.Length - 1; i >= 0; i--)
+                {
+                    if (array1[i] % 2 != 0 && tempcount - 1 >= 0)
+                    {
+                        tempArray[tempcount - 1] = array1[i];
+                        tempcount--;
+                    }
+                }
+                int len = 0;
+                for (int i = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                        len++;
+                }
+                int[] newArray = new int[len];
+                for (int i = 0, j = 0; i < tempArray.Length; i++)
+                {
+                    if (tempArray[i] != 0)
+                    {
+                        newArray[j] = tempArray[i];
+                        j++;
+                    }
+                }
+                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+            }
+            else
+            {
+                Console.WriteLine("Invalid count");
+            }
         }
     }
 }
