@@ -42,8 +42,8 @@ namespace _04._Password_Validator
             int counter = 0;
             foreach (char c in password)
             {
-                bool isFound = "0123456789".IndexOf(c) >= 0;
-                if (isFound)
+                //bool isFound = "0123456789".IndexOf(c) >= 0;
+                if (char.IsDigit(c))
                 {
                     counter++;
                 }
