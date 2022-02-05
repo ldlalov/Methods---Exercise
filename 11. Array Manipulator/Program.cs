@@ -5,7 +5,6 @@ namespace _11._Array_Manipulator
 {
     internal class Program
     {
-
         static void Main(string[] args)
         {
             int[] array1 = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
@@ -89,7 +88,7 @@ namespace _11._Array_Manipulator
             int value = int.MinValue;
             for (int i = 0; i < array1.Length; i++)
             {
-                if (array1[i] % 2 == 0 && array1[i] > index)
+                if (array1[i] % 2 == 0 && array1[i] >= value)
                 {
                     value = array1[i];
                     index = i;
@@ -110,7 +109,7 @@ namespace _11._Array_Manipulator
             int value = int.MinValue;
             for (int i = 0; i < array1.Length; i++)
             {
-                if (array1[i] % 2 != 0 && array1[i] > value)
+                if (array1[i] % 2 != 0 && array1[i] >= value)
                 {
                     value = array1[i];
                     index = i;
@@ -131,7 +130,7 @@ namespace _11._Array_Manipulator
             int value = int.MaxValue;
             for (int i = 0; i < array1.Length; i++)
             {
-                if (array1[i] % 2 == 0 && array1[i] < value)
+                if (array1[i] % 2 == 0 && array1[i] <= value)
                 {
                     value = array1[i];
                     index = i;
@@ -152,7 +151,7 @@ namespace _11._Array_Manipulator
             int value = int.MaxValue;
             for (int i = 0; i < array1.Length; i++)
             {
-                if (array1[i] % 2 != 0 && array1[i] < value)
+                if (array1[i] % 2 != 0 && array1[i] <= value)
                 {
                     value = array1[i];
                     index = i;
@@ -169,35 +168,20 @@ namespace _11._Array_Manipulator
         }
         static void FirstEven(int[] array1, int count)
         {
-            if (count < array1.Length)
+            if (count <= array1.Length)
             {
-                int index = array1[0];
                 int tempcount = 0;
-                int[] tempArray = new int[count];
+                string[] tempArray = new string[count];
                 for (int i = 0; i < array1.Length; i++)
                 {
                     if (array1[i] % 2 == 0 && tempcount < tempArray.Length)
                     {
-                        tempArray[tempcount] = array1[i];
+                        tempArray[tempcount] = array1[i].ToString();
                         tempcount++;
                     }
                 }
-                int len = 0;
-                for (int i = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                        len++;
-                }
-                int[] newArray = new int[len];
-                for (int i = 0, j = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                    {
-                        newArray[j] = tempArray[i];
-                        j++;
-                    }
-                }
-                    Console.WriteLine($"[{String.Join(", ", newArray)}]");
+                tempArray = tempArray.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                Console.WriteLine($"[{String.Join(", ", tempArray)}]");
             }
             else
             {
@@ -206,35 +190,20 @@ namespace _11._Array_Manipulator
         }
         static void FirstOdd(int[] array1, int count)
         {
-            if (count < array1.Length)
+            if (count <= array1.Length)
             {
-                int index = array1[0];
                 int tempcount = 0;
-                int[] tempArray = new int[count];
+                string[] tempArray = new string[count];
                 for (int i = 0; i < array1.Length; i++)
                 {
                     if (array1[i] % 2 != 0 && tempcount < tempArray.Length)
                     {
-                        tempArray[tempcount] = array1[i];
+                        tempArray[tempcount] = array1[i].ToString();
                         tempcount++;
                     }
                 }
-                int len = 0;
-                for (int i = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                        len++;
-                }
-                int[] newArray = new int[len];
-                for (int i = 0, j = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                    {
-                        newArray[j] = tempArray[i];
-                        j++;
-                    }
-                }
-                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+                tempArray = tempArray.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                Console.WriteLine($"[{String.Join(", ", tempArray)}]");
             }
             else
             {
@@ -245,33 +214,18 @@ namespace _11._Array_Manipulator
         {
             if (count <= array1.Length)
             {
-                int index = array1[0];
                 int tempcount = count;
-                int[] tempArray = new int[count];
+                string[] tempArray = new string[count];
                 for (int i = array1.Length - 1; i >= 0; i--)
                 {
                     if (array1[i] % 2 == 0 && tempcount - 1 >= 0)
                     {
-                        tempArray[tempcount - 1] = array1[i];
+                        tempArray[tempcount - 1] = array1[i].ToString();
                         tempcount--;
                     }
                 }
-                int len = 0;
-                for (int i = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                        len++;
-                }
-                int[] newArray = new int[len];
-                for (int i = 0, j = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                    {
-                        newArray[j] = tempArray[i];
-                        j++;
-                    }
-                }
-                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+                tempArray = tempArray.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                Console.WriteLine($"[{String.Join(", ", tempArray)}]");
             }
             else
             {
@@ -282,33 +236,18 @@ namespace _11._Array_Manipulator
         {
             if (count <= array1.Length)
             {
-                int index = array1[0];
                 int tempcount = count;
-                int[] tempArray = new int[count];
+                string[] tempArray = new string[count];
                 for (int i = array1.Length - 1; i >= 0; i--)
                 {
                     if (array1[i] % 2 != 0 && tempcount - 1 >= 0)
                     {
-                        tempArray[tempcount - 1] = array1[i];
+                        tempArray[tempcount - 1] = array1[i].ToString();
                         tempcount--;
                     }
                 }
-                int len = 0;
-                for (int i = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                        len++;
-                }
-                int[] newArray = new int[len];
-                for (int i = 0, j = 0; i < tempArray.Length; i++)
-                {
-                    if (tempArray[i] != 0)
-                    {
-                        newArray[j] = tempArray[i];
-                        j++;
-                    }
-                }
-                Console.WriteLine($"[{String.Join(", ", newArray)}]");
+                tempArray = tempArray.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                Console.WriteLine($"[{String.Join(", ", tempArray)}]");
             }
             else
             {
